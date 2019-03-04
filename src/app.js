@@ -5,7 +5,8 @@ const ObjectId = require("mongodb").ObjectID;
 
 const CONNECTION_URL = "mongodb+srv://cocob12:Azerty123456@cluster0-zkvlx.mongodb.net/test?retryWrites=true";
 
-const DATABASE_NAME = "example";
+
+const DATABASE_NAME = "test";
 
 var app = Express();
 
@@ -20,7 +21,7 @@ app.listen(3000, () => {
             throw error;
         }
         database = client.db(DATABASE_NAME);
-        collection = database.collection("people");
+        collection = database.collection("Moovies");
         console.log("Connected to `" + DATABASE_NAME + "`!");
     });
 });
