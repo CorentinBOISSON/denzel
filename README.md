@@ -94,7 +94,7 @@ You could use the [src/imdb.js](./src/imdb.js) ready-to-use exported function.
 }
 ```
 
-Start [node sandbox.js](./sandbox.js) for an usage example.
+Start [node sandbox.js](sandbox.js) for an usage example.
 
 #### `GET /movies`
 
