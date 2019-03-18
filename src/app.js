@@ -11,8 +11,6 @@ var app = Express();
 
 app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
-
-
 app.listen(9292, () => {
 
     MongoClient.connect(
@@ -102,6 +100,16 @@ app.get("/movies/:id", (request, response) => {
         response.send(result);
 
     });
+
+
+    app.post("/movies/:id", (request, response) => {
+        collection.updateMany({id : request.params.id}, {$set : request.body}, {upsert : true}, (error, result) => {
+            if (error) {
+                return response.status(500).send(error);
+            }
+            response.send(result)
+        })
+    })
 
 });
 
