@@ -4,6 +4,7 @@ const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
 const imdb = require("./imdb");
 const DENZEL_IMDB_ID = "nm0000243";
+let collection, database;
 
 const CONNECTION_URL = "mongodb+srv://cocob12:123@cluster0-zkvlx.mongodb.net/test?retryWrites=true";
 const DATABASE_NAME = "Dataset";
@@ -77,7 +78,7 @@ app.get("/movies/search", (request, response) => {
 
             { $sample: { size: Number(request.query.limit) } }
 
-        ])
+            ])
 
         .toArray((error, result) => {
 
@@ -87,30 +88,35 @@ app.get("/movies/search", (request, response) => {
             }
             response.send(result);
         });
+
 });
 
-app.get("/movies/:id", (request, response) => {
+    app.get("/movies/:id", (request, response) => {
+        collection.findOne({ id: request.params.id }, (err, result) => {
+            if (err) {
+                return response.status(500).send(err);
 
-    collection.findOne({ id: request.params.id }).toArray((error, result) => {
-
-        if (error)
-        {
-            return response.status(500).send(error);
-        }
-        response.send(result);
-
+            }
+            response.send(result);
+        });
     });
 
-
-    app.post("/movies/:id", (request, response) => {
-        collection.updateMany({id : request.params.id}, {$set : request.body}, {upsert : true}, (error, result) => {
-            if (error) {
-                return response.status(500).send(error);
-            }
-            response.send(result)
-        })
+app.post("/movies/:id", (request, response) => {
+    let selector = {
+        "id": request.params.id
+    };
+    let document = {
+        $set: {date : request.body.date, review : request.body.review}
+    };
+    let options = {
+        "upsert": true
+    };
+    collection.updateMany(selector, document, options, (error, result) => {
+        if (error) {
+            return response.status(500).send(error);
+        }
+        response.send(result)
     })
-
-});
+})
 
 
