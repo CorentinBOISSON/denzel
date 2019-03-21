@@ -1,10 +1,7 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-const Express = require("express");
-const BodyParser = require("body-parser");
 const { buildSchema } = require('graphql');
 const MongoClient = require("mongodb").MongoClient;
-const ObjectID = require("mongodb").ObjectID;
 const imdb = require('./imdb');
 const DENZEL_IMDB_ID = 'nm0000243';
 let collection, database;
