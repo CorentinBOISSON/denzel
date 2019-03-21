@@ -72,13 +72,13 @@ app.get("/movies/search", (request, response) => {
     console.log(request.query.limit);
     collection.aggregate([
 
-            {
-                $match: { metascore: { $gte: Number(request.query.metascore) } }
-            },
+        {
+            $match: { metascore: { $gte: Number(request.query.metascore) } }
+        },
 
-            { $sample: { size: Number(request.query.limit) } }
+        { $sample: { size: Number(request.query.limit) } }
 
-            ])
+    ])
 
         .toArray((error, result) => {
 
@@ -91,15 +91,15 @@ app.get("/movies/search", (request, response) => {
 
 });
 
-    app.get("/movies/:id", (request, response) => {
-        collection.findOne({ id: request.params.id }, (err, result) => {
-            if (err) {
-                return response.status(500).send(err);
+app.get("/movies/:id", (request, response) => {
+    collection.findOne({ id: request.params.id }, (err, result) => {
+        if (err) {
+            return response.status(500).send(err);
 
-            }
-            response.send(result);
-        });
+        }
+        response.send(result);
     });
+});
 
 app.post("/movies/:id", (request, response) => {
     let selector = {
